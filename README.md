@@ -19,9 +19,10 @@ To use: Set up a normal ILS approach with the built-in autopilot and the addon w
 Please read these points to understand the addon's operational philosophy before reporting issues.
 
 
-### Aircraft Compatibility* **Non-Autoland Aircraft:** If an aircraft does not have real-world Autoland capability (e.g., small GA planes), results may be poor or unstable. For realism, **we cannot fix issues like those. Sorry.*** 
+### Aircraft Compatibility
+* **Non-Autoland Aircraft:** If an aircraft does not have real-world Autoland capability (e.g., small GA planes), results may be poor or unstable. For realism, **we cannot fix issues like those. Sorry.**
 
-**Autoland-Equipped Aircraft:** If an aircraft *is* known to have Autoland capability in real life and this addon performs poorly, please report it! We will investigate and fix the system to match the expected performance.
+* **Autoland-Equipped Aircraft:** If an aircraft *is* known to have Autoland capability in real life and this addon performs poorly, please report it! We will investigate and fix the system to match the expected performance.
 
 
 ### Crosswind Performance
@@ -58,4 +59,4 @@ We value your input! If you encounter any bugs, have suggestions for feature imp
 
 **Before contacting us about a bug, please ensure you can reproduce the issue at least three times** and provide clear steps to replicate the failure.
 
-Discord Usernames: `ggamergguy` and `ahmed_8117`.
+Contact us via Discord. Discord server [here](https://discord.gg/VTTF2jjMdc)
