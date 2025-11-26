@@ -1,5 +1,6 @@
 // ==UserScript==
 // @name         GeoFS Autoland
+// @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  Makes autopilot landings actually smooth
 // @author       GGamerGGuy and Ahmed
