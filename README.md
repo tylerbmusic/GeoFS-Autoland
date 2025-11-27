@@ -57,6 +57,8 @@ Every time you want to use the addon, copy and paste the contents of `main.user.
 
 We value your input! If you encounter any bugs, have suggestions for feature improvements, or need assistance, please reach out.
 
-**Before contacting us about a bug, please ensure you can reproduce the issue at least three times** and provide clear steps to replicate the failure.
+**Before contacting us about a bug, please ensure you can reproduce the issue at least three times** and provide clear steps to replicate the failure. If possible, please also provide a video or a replay file of the bug.
 
-Contact us via Discord. Discord server [here](https://discord.gg/VTTF2jjMdc)
+## Contact
+If you encounter an issue, please use the "Issues" tab of this repository.
+You can also contact us via Discord. Discord server [here](https://discord.gg/VTTF2jjMdc)
