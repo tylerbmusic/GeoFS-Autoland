@@ -10,6 +10,8 @@ Why was this made? To answer that question. Well well well. Ever felt how badly 
 Improves the ILS autoland system by adding flaring functionality and autobrakes/spoilers/reverse thrust. Also disconnects upon ground contact.
 To use: Set up a normal ILS approach with the built-in autopilot and the addon will automatically activate.
 
+**Note: In order to properly capture the glideslope, you must activate the autopilot's ILS while *below* the glideslope. Ideally, when you activate the ILS, you should also be at least 3.0nm away and already at the correct approach speed for your aircraft.**
+
 ---
 
 
@@ -57,7 +59,8 @@ Every time you want to use the addon, copy and paste the contents of `main.user.
 
 We value your input! If you encounter any bugs, have suggestions for feature improvements, or need assistance, please reach out.
 
-**Before contacting us about a bug, please ensure you can reproduce the issue at least three times** and provide clear steps to replicate the failure. If possible, please also provide a video or a replay file of the bug.
+**Before contacting us about a bug, please ensure you can reproduce the issue at least three times** and provide clear steps to replicate the failure. Also please make sure that you are on the latest version. If possible, please also provide a video or a replay file of the bug.
+
 
 ## Contact
 If you encounter an issue, please use the "Issues" tab of this repository.
