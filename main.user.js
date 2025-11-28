@@ -7,8 +7,8 @@
 // @match        https://*.geo-fs.com/geofs.php*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=geo-fs.com
 // @grant        none
-// @downloadURL  https://github.com/tylerbmusic/GeoFS-Autoland/raw/refs/heads/main/userscript.js
-// @updateURL    https://github.com/tylerbmusic/GeoFS-Autoland/raw/refs/heads/main/userscript.js
+// @downloadURL  https://github.com/tylerbmusic/GeoFS-Autoland/raw/refs/heads/main/main.user.js
+// @updateURL    https://github.com/tylerbmusic/GeoFS-Autoland/raw/refs/heads/main/main.user.js
 // ==/UserScript==
 function alWait() {
     if (window.geofs.cautiousWithTerrain == false) {
