@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         GeoFS Autoland
-// @version      0.2
+// @version      0.2.1
 // @description  Makes autopilot landings actually smooth
 // @author       GGamerGGuy and Ahmed
 // @match        https://geo-fs.com/geofs.php*
@@ -39,17 +39,19 @@ window.activateAutoLand = function() {
         window.geofs.autopilot.turnOff();
     }
     window.alNavaid = window.geofs.nav.addGPSFIX([window.geofs.nav.units.NAV1.navaid.lat, window.geofs.nav.units.NAV1.navaid.lon]);
-    window.geofs.nav.selectNavaid(window.alNavaid.id);
-    window.geofs.autopilot.turnOn();
-    window.geofs.autopilot.setMode("NAV");
-    window.geofs.nav.units.GPS.OBS = window.geofs.nav.units.NAV1.course;
-    window.geofs.autopilot.setAltitude(100000); //No airports are at 100k feet, so this is a good numer
-    window.pitchInterval = setInterval(() => {
-        window.gVS = (window.geofs.animation.values.groundSpeedKnt*101.27) * Math.tan(-3*(1/window.RAD_TO_DEGREES));
-        let glideslope = (window.geofs.animation.getValue("NAV1Direction") === "to") ? (Math.atan(((window.geofs.animation.values.altitude/3.2808399+(window.geofs.aircraft.instance.collisionPoints[window.geofs.aircraft.instance.collisionPoints.length - 2].worldPosition[2]+0.1))-window.geofs.nav.units.NAV1.navaid.elevation) / (window.geofs.animation.getValue("NAV1Distance")+window.geofs.runways.getNearestRunway([window.geofs.nav.units.NAV1.navaid.lat,window.geofs.nav.units.NAV1.navaid.lon,0]).lengthMeters*0.0185))*window.RAD_TO_DEGREES) : (Math.atan(((window.geofs.animation.values.altitude/3.2808399+(window.geofs.aircraft.instance.collisionPoints[window.geofs.aircraft.instance.collisionPoints.length - 2].worldPosition[2]+0.1))-window.geofs.nav.units.NAV1.navaid.elevation) / Math.abs(window.geofs.animation.getValue("NAV1Distance")-window.geofs.runways.getNearestRunway([window.geofs.nav.units.NAV1.navaid.lat,window.geofs.nav.units.NAV1.navaid.lon,0]).lengthMeters*0.0185))*window.RAD_TO_DEGREES);
-        window.requiredVS = window.gVS + ((-glideslope+3)*400);
-        window.geofs.autopilot.setVerticalSpeed(Math.max(-1000,Math.min(0,window.requiredVS))); //Clamp to values between -1000fpm and 0fpm
-    }, 50);
+    setTimeout(() => {
+        window.geofs.nav.selectNavaid(window.alNavaid.id);
+        window.geofs.autopilot.turnOn();
+        window.geofs.autopilot.setMode("NAV");
+        window.geofs.nav.units.GPS.OBS = window.geofs.nav.units.NAV1.course;
+        window.geofs.autopilot.setAltitude(100000); //No airports are at 100k feet, so this is a good numer
+        window.pitchInterval = setInterval(() => {
+            window.gVS = (window.geofs.animation.values.groundSpeedKnt*101.27) * Math.tan(-3*(1/window.RAD_TO_DEGREES));
+            let glideslope = (window.geofs.animation.getValue("NAV1Direction") === "to") ? (Math.atan(((window.geofs.animation.values.altitude/3.2808399+(window.geofs.aircraft.instance.collisionPoints[window.geofs.aircraft.instance.collisionPoints.length - 2].worldPosition[2]+0.1))-window.geofs.nav.units.NAV1.navaid.elevation) / (window.geofs.animation.getValue("NAV1Distance")+window.geofs.runways.getNearestRunway([window.geofs.nav.units.NAV1.navaid.lat,window.geofs.nav.units.NAV1.navaid.lon,0]).lengthMeters*0.0185))*window.RAD_TO_DEGREES) : (Math.atan(((window.geofs.animation.values.altitude/3.2808399+(window.geofs.aircraft.instance.collisionPoints[window.geofs.aircraft.instance.collisionPoints.length - 2].worldPosition[2]+0.1))-window.geofs.nav.units.NAV1.navaid.elevation) / Math.abs(window.geofs.animation.getValue("NAV1Distance")-window.geofs.runways.getNearestRunway([window.geofs.nav.units.NAV1.navaid.lat,window.geofs.nav.units.NAV1.navaid.lon,0]).lengthMeters*0.0185))*window.RAD_TO_DEGREES);
+            window.requiredVS = window.gVS + ((-glideslope+3)*400);
+            window.geofs.autopilot.setVerticalSpeed(Math.max(-1000,Math.min(0,window.requiredVS))); //Clamp to values between -1000fpm and 0fpm
+        }, 50);
+    }, 500);
 }
 window.alDeactivate = function() {
     window.controls.elevatorTrim = 0;
@@ -71,7 +73,7 @@ window.autolandInterval = function() {
     var agl = (window.geofs.animation.values.altitude !== undefined && window.geofs.animation.values.groundElevationFeet !== undefined) ? ((window.geofs.animation.values.altitude - window.geofs.animation.values.groundElevationFeet) + (window.geofs.aircraft.instance.collisionPoints[window.geofs.aircraft.instance.collisionPoints.length - 2].worldPosition[2]*3.2808399)) : 'N/A';
 
     //Autoland general stuff
-    if (!window.alOn && window.geofs.autopilot && window.geofs.autopilot.on && (window.geofs.autopilot.mode == 'NAV') && window.geofs.autopilot.VNAV && (window.geofs.nav.currentNAVUnit.navaid.type == 'ILS')) { //If the built-in ILS follower was just turned on
+    if (!window.alOn && window.geofs.autopilot && window.geofs.autopilot.on && (window.geofs.autopilot.mode == 'NAV') && window.geofs.autopilot.VNAV && window.geofs.nav.currentNAVUnit && (window.geofs.nav.currentNAVUnit.navaid.type == 'ILS')) { //If the built-in ILS follower was just turned on
         window.alOn = true;
         if (window.geofs.nav.units.NAV1.distance < 5000) {
             window.activateAutoLand();
@@ -80,7 +82,7 @@ window.autolandInterval = function() {
         window.alOn = false;
         window.alDeactivate();
     }
-    if (window.geofs.nav.units.NAV1.distance < 200) {
+    if (window.alOn && window.geofs.nav.units.NAV1 && window.geofs.nav.units.NAV1.distance < 200) {
         window.geofs.autopilot.setMode("HDG");
     }
     if (window.alOn && !window.autolandActivated && (window.geofs.nav.units.NAV1.distance < 5000)) {
@@ -106,9 +108,9 @@ window.autolandInterval = function() {
                 window.alDelta = pitch - window.alLastPitch;
                 let sign = (pitch-window.alTarget >= 0) ? -1 : 1;
                 if (window.alDelta > window.alTargetDel*sign && window.controls.elevatorTrim > window.controls.elevatorTrimMin*0.7) {
-                    window.controls.elevatorTrim -= window.controls.elevatorTrimStep*(0.2*(0.123077*window.geofs.aircraft.instance.definition.dragFactor+(0.0384615)));
+                    window.controls.elevatorTrim -= window.controls.elevatorTrimStep*(0.18*(0.123077*window.geofs.aircraft.instance.definition.dragFactor+(0.0384615)));
                 } else if (window.alDelta < window.alTargetDel*sign && window.controls.elevatorTrim < window.controls.elevatorTrimMax*0.7) {
-                    window.controls.elevatorTrim += window.controls.elevatorTrimStep*(0.2*(0.123077*window.geofs.aircraft.instance.definition.dragFactor+(0.0384615)));
+                    window.controls.elevatorTrim += window.controls.elevatorTrimStep*(0.18*(0.123077*window.geofs.aircraft.instance.definition.dragFactor+(0.0384615)));
                 }
             }
             window.alLastPitch = pitch;
